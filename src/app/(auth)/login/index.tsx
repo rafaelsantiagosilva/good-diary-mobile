@@ -14,9 +14,9 @@ export default function Login() {
       <View className="w-full px-16 mt-32 gap-8">
         <Input placeholder="E-mail" keyboardType="email-address" />
         <Input placeholder="Senha" secureTextEntry />
-        <Button label="Entrar" />
+        <Button className="mt-12" label="Entrar" />
 
-        <Link address={"/login"} label="Não possui uma conta? Criar" />
+        <Link address={"/create-account"} label="Não possui uma conta? Criar" />
       </View>
     </View>
     )
