@@ -16,7 +16,7 @@ export function Header({title, icon, address}: Props) {
                 <Text className="font-lemon text-5xl text-slate-50">{title}</Text>
 
                 <ExpoLink href={address} asChild>
-                    <IconButton icon="user" />
+                    <IconButton icon={icon} />
                 </ExpoLink>
         </View>
     )
