@@ -15,7 +15,7 @@ export default function RootLayout() {
 
   const rootNavigationState = useRootNavigationState();
 
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(true);
 
   const [fontsLoaded, fontError] = useFonts({
     Lemon_400Regular,
@@ -37,7 +37,7 @@ export default function RootLayout() {
     if (!isAuthenticated && !inAuthGroup)
       router.replace("/login");
     else if (isAuthenticated && inAuthGroup)
-      router.replace("/login");
+      router.replace("/home");
   }, [isAuthenticated, segments]);
 
   return <Slot />;
