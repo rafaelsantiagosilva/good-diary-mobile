@@ -40,7 +40,7 @@ export default function RootLayout() {
       SplashScreen.hideAsync();
   }, [fontsLoaded, fontError]);
 
-  if (isAuthenticated === null || !fontsLoaded && !fontError) {
+  if (!fontsLoaded && !fontError) {
     return (
       <View className="flex-1 justify-center items-center bg-purple-700">
         <ActivityIndicator size="large" color="#ffffff" />
