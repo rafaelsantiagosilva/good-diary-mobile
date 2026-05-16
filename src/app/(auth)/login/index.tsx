@@ -14,7 +14,7 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const [isErrorModalVisible, setIsErrorModalVisible] = useState(true);
+  const [isErrorModalVisible, setIsErrorModalVisible] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
   const { isPending, mutateAsync } = useAuthControllerHandle();
@@ -25,10 +25,8 @@ export default function Login() {
         data: payload
       })) as unknown as LoginResponseDto;
 
-      tokenStore.setToken(response.token);
-      console.log(response.token);
+      await tokenStore.setToken(response.token);
       router.replace("/home");
-      return;
   } catch (err: any | AxiosError) {    
     setErrorMessage("Credenciais inválidas.");
 

@@ -1,13 +1,15 @@
-let authToken: string | null = null;
+import * as SecureStore from "expo-secure-store";
+
+const TOKEN_KEY = "good-diary_auth_token";
 
 export const tokenStore = {
-    setToken(token: string) {
-        authToken = token;
+    async setToken(token: string) {
+        await SecureStore.setItemAsync(TOKEN_KEY, token);
     },
-    getToken() {
-        return authToken;
+    async getToken() {
+        return await SecureStore.getItemAsync(TOKEN_KEY);
     },
-    clearToken() {
-        return authToken = null;
+    async clearToken() {
+        await SecureStore.deleteItemAsync(TOKEN_KEY);
     }
 }

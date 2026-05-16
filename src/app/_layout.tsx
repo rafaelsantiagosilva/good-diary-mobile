@@ -6,19 +6,15 @@ import { Lemon_400Regular } from "@expo-google-fonts/lemon";
 import { Poppins_400Regular, Poppins_700Bold } from "@expo-google-fonts/poppins";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useFonts } from "expo-font";
-import { Slot, useRootNavigationState, useRouter, useSegments } from "expo-router";
-import { useEffect } from "react";
+import { router, Slot } from "expo-router";
+import { useEffect, useState } from "react";
+import { ActivityIndicator, View } from "react-native";
 
 SplashScreen.preventAutoHideAsync();
 const queryClient = new QueryClient();
 
 export default function RootLayout() {
-  const segments = useSegments();
-  const router = useRouter();
-
-  const rootNavigationState = useRootNavigationState();
-
-  const isAuthenticated = !!tokenStore.getToken();
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
 
   const [fontsLoaded, fontError] = useFonts({
     Lemon_400Regular,
@@ -27,23 +23,30 @@ export default function RootLayout() {
   });
 
   useEffect(() => {
+    async function checkAuth() {
+      const token = await tokenStore.getToken();
+      setIsAuthenticated(!!token);
+
+      if (isAuthenticated)
+        return router.replace("/home");
+      
+      return router.replace("/login");
+    }
+    checkAuth();
+  }, []);
+
+  useEffect(() => {
     if (fontsLoaded || fontError)
       SplashScreen.hideAsync();
   }, [fontsLoaded, fontError]);
 
-  useEffect(() => {
-    if (!fontsLoaded) return;
-    if (!rootNavigationState?.key) return;
-
-    const inAuthGroup = segments[0] === "(auth)" || segments[0] === "login" || segments[0] === "create-account";
-
-    if (!isAuthenticated && !inAuthGroup)
-      router.replace("/login");
-    else if (isAuthenticated && inAuthGroup)
-      router.replace("/home");
-  }, [isAuthenticated, segments]);
-
-  if (!fontsLoaded && !fontError) return null;
+  if (isAuthenticated === null || !fontsLoaded && !fontError) {
+    return (
+      <View className="flex-1 justify-center items-center bg-purple-700">
+        <ActivityIndicator size="large" color="#ffffff" />
+      </View>
+    );
+  }
 
   return (
     <QueryClientProvider client={queryClient}>

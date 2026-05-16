@@ -15,7 +15,7 @@ export const customInstance = async<T>(
         signal?: AbortSignal
     }
 ): Promise<T> => {
-    const token = tokenStore.getToken();
+    const token = await tokenStore.getToken();
 
     const headers: Record<string, string> = {
         ...options.headers,
