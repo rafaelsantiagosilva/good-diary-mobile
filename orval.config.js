@@ -1,7 +1,9 @@
-module.exports = {
+import "dotenv/config";
+
+export default {
     "good-diary-api": {
         input: {
-            target: "http://192.168.15.30:3333/openapi.json",
+            target: `${process.env.EXPO_BASE_URL}/openapi.json`,
             validation: false
         },
         output: {
