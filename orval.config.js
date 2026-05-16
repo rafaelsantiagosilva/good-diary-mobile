@@ -3,7 +3,7 @@ import "dotenv/config";
 export default {
     "good-diary-api": {
         input: {
-            target: `${process.env.EXPO_BASE_URL}/openapi.json`,
+            target: `${process.env.EXPO_PUBLIC_API_URL}/openapi.json`,
             validation: false
         },
         output: {
