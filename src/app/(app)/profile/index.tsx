@@ -1,6 +1,7 @@
 import { Header } from "@/components/Header";
 import { IconButton } from "@/components/IconButton";
 import { Input } from "@/components/Input";
+import { tokenStore } from "@/services/api/token-store";
 import { useState } from "react";
 import { Text, View } from "react-native";
 
@@ -37,7 +38,7 @@ export default function Profile() {
 
                 <View className="flex-row justify-between items-center">
                     <Text className="font-lemon text-purple-700 text-lg">Sair</Text>
-                    <IconButton variant="sm" icon="log-out" />
+                    <IconButton variant="sm" icon="log-out" onPress={() => tokenStore.clearToken()} />
                 </View>
             </View>
         </View>

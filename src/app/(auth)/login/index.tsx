@@ -1,16 +1,21 @@
+import { BaseModal } from "@/components/BaseModal";
 import { Button } from "@/components/Button";
 import { Input } from "@/components/Input";
 import { Link } from "@/components/Link";
 import { useAuthControllerHandle } from "@/services/api/generated/auth/auth";
 import { LoginResponseDto } from "@/services/api/generated/model";
 import { tokenStore } from "@/services/api/token-store";
+import { AxiosError } from "axios";
 import { router } from "expo-router";
 import { useState } from "react";
-import { Alert, Text, View } from "react-native";
+import { Text, View } from "react-native";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const [isErrorModalVisible, setIsErrorModalVisible] = useState(true);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const { isPending, mutateAsync } = useAuthControllerHandle();
   
@@ -24,16 +29,19 @@ export default function Login() {
       console.log(response.token);
       router.replace("/home");
       return;
-  } catch (err: any) {
-    Alert.alert("Ocorreu um erro", "algm me mata", [
-      { text: "Ok" }
-    ]);
+  } catch (err: any | AxiosError) {    
+    setErrorMessage("Credenciais inválidas.");
+
+    if (err instanceof AxiosError && err.status! >= 500)
+      setErrorMessage("Um erro desconhecido ocorreu. Tente novamente mais tarde.");
+  
+    setIsErrorModalVisible(true);
   }
   }
 
     return (
     <View className="flex-1 items-center bg-purple-700 pt-16">
-      <Text className="text-5xl font-lemon text-slate-50">
+      <Text className="text-5xl font-lemon text-slate-50 pb-2">
         Good Diary
       </Text>
 
@@ -48,6 +56,15 @@ export default function Login() {
 
         <Link address={"/create-account"} label="Não possui uma conta? Criar" />
       </View>
+
+      <BaseModal
+        visible={isErrorModalVisible}
+        onClose={() => setIsErrorModalVisible(false)}
+        title="Ocorreu um erro"
+      >
+        <Text className="font-poppins dark:text-slate-50">{errorMessage}</Text>
+
+      </BaseModal>
     </View>
     )
 }
