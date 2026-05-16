@@ -2,12 +2,23 @@ import { Header } from "@/components/Header";
 import { IconButton } from "@/components/IconButton";
 import { Input } from "@/components/Input";
 import { tokenStore } from "@/services/api/token-store";
+import { UserPayload } from "@/types/user-payload";
 import { router } from "expo-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Text, View } from "react-native";
 
 export default function Profile() {
+    const [user, setUser] = useState<UserPayload | null>(null);
     const [theme, setTheme] = useState<"light" | "dark">("light");
+
+    useEffect(() => {
+        async function loadUser() {
+            const userData = await tokenStore.getUser();
+            setUser(userData);
+        }
+
+        loadUser();
+    }), [];
 
     return (
         <View className="bg-amber-50 h-full">
@@ -16,12 +27,12 @@ export default function Profile() {
             <View className="h-full p-8 gap-6">
                 <View className="gap-2">
                     <Text className="font-lemon text-purple-700 text-lg">Nome</Text>
-                    <Input value="John Doe" editable={false} />
+                    <Input value={user?.name} editable={false} />
                 </View>
                 
                 <View className="gap-2">
                     <Text className="font-lemon text-purple-700 text-lg">E-mail</Text>
-                    <Input value="John Doe" editable={false} />
+                    <Input value={user?.email} editable={false} />
                 </View>
 
                 <View className="gap-2">

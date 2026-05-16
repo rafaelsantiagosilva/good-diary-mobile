@@ -1,4 +1,6 @@
+import { UserPayload } from "@/types/user-payload";
 import * as SecureStore from "expo-secure-store";
+import { jwtDecode } from "jwt-decode";
 
 const TOKEN_KEY = "good-diary_auth_token";
 
@@ -11,5 +13,17 @@ export const tokenStore = {
     },
     async clearToken() {
         await SecureStore.deleteItemAsync(TOKEN_KEY);
+    },
+    async getUser(): Promise<UserPayload | null> {
+        const token = await this.getToken();
+
+        if (!token) return null;
+
+        try {
+            const decoded = jwtDecode<UserPayload>(token);
+            return decoded;
+        } catch (error) {
+            return null;
+        }
     }
 }
