@@ -41,7 +41,7 @@ EXPO_PUBLIC_API_URL=http://localhost:3000 # URL da API rodando.
 ### Criar conta
 
 - Função de criar uma conta e logo em seguida realizar o login do usuário.
-- 
+
 <p align="center" style="display: flex; gap:5px">
   <img src="./docs/screens/light-create-account.jpeg" width="45%" alt="Tela de Criar Conta em Tema Claro" />
   <img src="./docs/screens/dark-create-account.jpeg" width="45%" alt="Tela de Criar Conta em Tema Escuro" />
