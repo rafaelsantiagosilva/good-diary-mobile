@@ -7,9 +7,10 @@ import colors from "tailwindcss/colors";
 type Props = {
     item: NoteType
     openUpdateNoteModal: (note: NoteType) => void
+    openDeleteNoteModal: (note: NoteType) => void
 }
 
-export function Note({ item, openUpdateNoteModal }: Props) {
+export function Note({ item, openUpdateNoteModal, openDeleteNoteModal }: Props) {
     const { colorScheme } = useColorScheme();
 
     return (
@@ -21,7 +22,7 @@ export function Note({ item, openUpdateNoteModal }: Props) {
                         <Entypo name="pencil" size={24} color={colors.purple[colorScheme === "light" ? 700 : 500]} />
                     </TouchableOpacity>
 
-                    <TouchableOpacity activeOpacity={0.7}>
+                    <TouchableOpacity activeOpacity={0.7} onPress={() => openDeleteNoteModal(item) }>
                         <Entypo name="trash" size={24} color={colors.purple[colorScheme === "light" ? 700 : 500]} />
                     </TouchableOpacity>
                 </View>

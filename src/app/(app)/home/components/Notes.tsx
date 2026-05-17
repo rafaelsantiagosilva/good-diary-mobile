@@ -5,8 +5,9 @@ import { useState } from "react";
 import { SectionList, Text, TouchableOpacity, View } from "react-native";
 import colors from "tailwindcss/colors";
 import { SectionedNotes } from "../utils/group-notes-by-date";
+import { DeleteNoteModal } from "./DeleteNoteModal";
 import { Note } from "./Note";
-import { UpdateNoteModal } from "./UpdateNoteModal copy";
+import { UpdateNoteModal } from "./UpdateNoteModal";
 
 type Props = {
     sections: SectionedNotes[]
@@ -18,6 +19,9 @@ export function Notes({sections}: Props) {
     const [noteToUpdate, setNoteToUpdate] = useState<NoteType | null>(null);
     const [isUpdateNoteModalVisible, setIsUpdateNoteModalVisible] = useState(false);
 
+    const [noteToDelete, setNoteToDelete] = useState<NoteType | null>(null);
+    const [isDeleteNoteModalVisible, setIsDeleteNoteModalVisible] = useState(false);
+
     function openUpdateNoteModal(note: NoteType) {
         setNoteToUpdate(note);
         setIsUpdateNoteModalVisible(true);
@@ -26,6 +30,16 @@ export function Notes({sections}: Props) {
     function closeUpdateNoteModal() {
         setNoteToUpdate(null);
         setIsUpdateNoteModalVisible(false);
+    }
+
+    function openDeleteNoteModal(note: NoteType) {
+        setNoteToDelete(note);
+        setIsDeleteNoteModalVisible(true);
+    }
+
+    function closeDeleteNoteModal() {
+        setNoteToDelete(null);
+        setIsDeleteNoteModalVisible(false);
     }
 
     return (
@@ -41,7 +55,13 @@ export function Notes({sections}: Props) {
                     </View>
                 )}
 
-                renderItem={({ item }) => <Note item={item} openUpdateNoteModal={openUpdateNoteModal} /> }
+                renderItem={({ item }) => ( 
+                    <Note 
+                        item={item} 
+                        openUpdateNoteModal={openUpdateNoteModal} 
+                        openDeleteNoteModal={openDeleteNoteModal} 
+                    /> 
+                )}
 
                 ListEmptyComponent={() => (
                     <View className='gap-2 items-center mt-44 h-full'>
@@ -63,6 +83,14 @@ export function Notes({sections}: Props) {
                     note={noteToUpdate}
                     visible={isUpdateNoteModalVisible}
                     onClose={closeUpdateNoteModal}
+                />
+            }
+
+            {!!noteToDelete && 
+                <DeleteNoteModal
+                    note={noteToDelete}
+                    visible={isDeleteNoteModalVisible}
+                    onClose={closeDeleteNoteModal}
                 />
             }
             
