@@ -31,7 +31,7 @@ export function BaseModal({
         {/* Container do Modal. Note as classes 'dark:' para o tema escuro */}
         <TouchableOpacity 
           activeOpacity={1} 
-          className="w-full bg-amber-50 dark:bg-slate-800 rounded-2xl p-6 shadow-lg"
+          className="w-full bg-amber-50 dark:bg-slate-900 rounded-2xl p-6 shadow-lg"
         >
             <View className="flex-row justify-between items-center">
                 <Text className="text-2xl font-poppins-bold text-slate-900 dark:text-slate-50 mb-4">

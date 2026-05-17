@@ -11,7 +11,7 @@ import { groupNotesByDate } from "./utils/group-notes-by-date";
 export default function Home() {
     const { isLoading, data } = useFetchUserNotesContollerHandle();
 
-    const notes: Note[] = (data as any).notes || [];
+    const notes: Note[] = (data as any)?.notes || [];
 
     const sections = useMemo(() => {
         return groupNotesByDate(notes);
@@ -20,7 +20,7 @@ export default function Home() {
     const [isAddNoteModalVisible, setIsAddNoteModalVisible] = useState(false);
 
     return (
-        <View className="bg-amber-50 h-full">
+        <View className="bg-amber-50 dark:bg-slate-800 h-full">
             <Header icon='user' title='Diário' address={"/profile"} />
 
             <View className="h-full py-4 pb-8 px-8">
