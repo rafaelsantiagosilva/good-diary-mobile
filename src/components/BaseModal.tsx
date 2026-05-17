@@ -6,8 +6,10 @@ type Props = {
     visible: boolean;
     onClose: () => void;
     title?: string;
-    children: ReactNode
+    children?: ReactNode
 }
+
+export { Props as BaseModalProps };
 
 export function BaseModal({
     visible,
