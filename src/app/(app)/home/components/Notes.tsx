@@ -1,16 +1,32 @@
+import { Note as NoteType } from "@/types/note";
 import Entypo from "@expo/vector-icons/Entypo";
 import { useColorScheme } from "nativewind";
+import { useState } from "react";
 import { SectionList, Text, TouchableOpacity, View } from "react-native";
 import colors from "tailwindcss/colors";
 import { SectionedNotes } from "../utils/group-notes-by-date";
 import { Note } from "./Note";
+import { UpdateNoteModal } from "./UpdateNoteModal copy";
 
 type Props = {
     sections: SectionedNotes[]
 }
 
 export function Notes({sections}: Props) {
-    const {colorScheme} = useColorScheme();
+    const { colorScheme } = useColorScheme();
+
+    const [noteToUpdate, setNoteToUpdate] = useState<NoteType | null>(null);
+    const [isUpdateNoteModalVisible, setIsUpdateNoteModalVisible] = useState(false);
+
+    function openUpdateNoteModal(note: NoteType) {
+        setNoteToUpdate(note);
+        setIsUpdateNoteModalVisible(true);
+    }
+
+    function closeUpdateNoteModal() {
+        setNoteToUpdate(null);
+        setIsUpdateNoteModalVisible(false);
+    }
 
     return (
          <View className='h-[70%] overflow-hidden scroll-smooth'>
@@ -25,7 +41,7 @@ export function Notes({sections}: Props) {
                     </View>
                 )}
 
-                renderItem={({ item }) => <Note item={item} /> }
+                renderItem={({ item }) => <Note item={item} openUpdateNoteModal={openUpdateNoteModal} /> }
 
                 ListEmptyComponent={() => (
                     <View className='gap-2 items-center mt-44 h-full'>
@@ -41,6 +57,15 @@ export function Notes({sections}: Props) {
                 scrollEnabled
                 className='flex-1'
             />
+
+            {!!noteToUpdate && 
+                <UpdateNoteModal
+                    note={noteToUpdate}
+                    visible={isUpdateNoteModalVisible}
+                    onClose={closeUpdateNoteModal}
+                />
+            }
+            
         </View>
     )
 }
