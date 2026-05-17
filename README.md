@@ -1,50 +1,101 @@
-# Welcome to your Expo app 👋
+<div align="center"><h1> 📓 Good Diary App 📱</h1></div>
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+O aplicativo do **Good Diary** consiste em um software para a manipulação de registros de notas de um usuário, com temas claro e escuro.
 
-## Get started
+O sistema consiste em um software feito para servir como diário pessoal, onde o usuário pode escrever notas sobre o seu dia, consultá-las, editá-las e excluí-las.
 
-1. Install dependencies
+## Ferramentas ✂️
 
-   ```bash
-   npm install
-   ```
+<div style="display: inline-block">
+  <img src="https://img.shields.io/badge/React_Native-61DAFB?style=for-the-badge&logo=react&logoColor=black" alt="React Native" />
+  <img src="https://img.shields.io/badge/Expo-000020?style=for-the-badge&logo=expo&logoColor=white" alt="Expo" />
+  <img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript" />
+  <img src="https://img.shields.io/badge/NativeWind-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white" alt="NativeWind" />
+  <img src="https://img.shields.io/badge/Orval-4F46E5?style=for-the-badge&logo=openapi&logoColor=white" alt="Orval" />
+  <img src="https://img.shields.io/badge/ESLint-4B32C3?style=for-the-badge&logo=eslint&logoColor=white" alt="ESLint" />
+  <img src="https://img.shields.io/badge/Prettier-F7B93E?style=for-the-badge&logo=prettier&logoColor=black" alt="Prettier" />
+</div>
 
-2. Start the app
+## Configuração Inicial 🛠️
 
-   ```bash
-   npx expo start
-   ```
+Antes de rodar a aplicação, certifique-se de que o projeto da [API](https://github.com/rafaelsantiagosilva/good-diary-backend) esteja rodando.
 
-In the output, you'll find options to open the app in a
+Crie um arquivo `.env` na raiz do projeto e preencha as variáveis abaixo:
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
+```conf
+EXPO_PUBLIC_API_URL=http://localhost:3000 # URL da API rodando.
+# Caso esteja rodando em um celular de fato, utilizar URL com IP da máquina da API.
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## Telas da Aplicação 📲
 
-## Learn more
+### Login
 
-To learn more about developing your project with Expo, look at the following resources:
+- Função de realizar o login do usuário.
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+<p align="center" style="display: flex; gap:5px">
+  <img src="./docs/screens/light-login.jpeg" width="45%" alt="Tela de Login em Tema Claro" />
+  <img src="./docs/screens/dark-login.jpeg" width="45%" alt="Tela de Login em Tema Escuro" />
+</p>
 
-## Join the community
+### Criar conta
 
-Join our community of developers creating universal apps.
+- Função de criar uma conta e logo em seguida realizar o login do usuário.
+- 
+<p align="center" style="display: flex; gap:5px">
+  <img src="./docs/screens/light-create-account.jpeg" width="45%" alt="Tela de Criar Conta em Tema Claro" />
+  <img src="./docs/screens/dark-create-account.jpeg" width="45%" alt="Tela de Criar Conta em Tema Escuro" />
+</p>
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+### Home
+
+- Listagem das notas e as possibilidades de:
+  - Criação de uma nova
+  - Edição de uma nota
+  - Exclusão de uma nota
+
+<p align="center" style="display: flex; gap:5px">
+  <img src="./docs/screens/light-home.jpeg" width="45%" alt="Tela Principal em Tema Claro" />
+  <img src="./docs/screens/dark-home.jpeg" width="45%" alt="Tela Principal em Tema Escuro" />
+</p>
+
+### Perfil
+
+- Informações sobre o usuário
+- Mudar o tema da aplicação
+
+<p align="center" style="display: flex; gap:5px">
+  <img src="./docs/screens/light-profile.jpeg" width="45%" alt="Tela de Perfil em Tema Claro" />
+  <img src="./docs/screens/dark-profile.jpeg" width="45%" alt="Tela de Perfil em Tema Escuro" />
+</p>
+
+## Comandos ⌨️
+
+### 1. Instalação
+
+```bash
+# Instalar dependências
+pnpm install
+```
+
+### 2. Criar os serviços da API
+
+```bash
+# Tenha certeza de ter preenchido o .env adequadamente
+pnpm api:generate
+```
+
+### 3. Execução
+
+```bash
+# Iniciar execução pelo Expo
+pnpm start
+
+# Abrir o app em uma máquina Android conectada ou VM
+pnpm android
+
+# Abrir o app em uma máquina IOS conectada ou VM
+pnpm ios
+```
+
+<div align="center"><span style="font-size: 0.7em;">🦇 Feito com 💜</span></div>
