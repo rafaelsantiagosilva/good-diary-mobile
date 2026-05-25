@@ -6,8 +6,9 @@ import { useAuthControllerHandle } from "@/services/api/generated/auth/auth";
 import { LoginResponseDto } from "@/services/api/generated/model";
 import { tokenStore } from "@/services/api/token-store";
 import { AxiosError } from "axios";
+import * as LocalAuthentication from "expo-local-authentication";
 import { router } from "expo-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Text, View } from "react-native";
 
 export default function Login() {
@@ -20,24 +21,50 @@ export default function Login() {
   const { isPending, mutateAsync } = useAuthControllerHandle();
   
   async function handleLogin(payload: { email: string, password: string }) {
-    try {
-      const response = (await mutateAsync({
-        data: payload
-      })) as unknown as LoginResponseDto;
+      try {
+        const response = (await mutateAsync({
+          data: payload
+        })) as unknown as LoginResponseDto;
 
-      await tokenStore.setToken(response.token);
-      router.replace("/home");
-  } catch (err: any | AxiosError) {    
-    setErrorMessage("Credenciais inválidas.");
+        await tokenStore.setToken(response.token);
+        router.replace("/home");
+    } catch (err: any | AxiosError) {    
+      setErrorMessage("Credenciais inválidas.");
 
-    if (err instanceof AxiosError && err.status! >= 500)
-      setErrorMessage("Um erro desconhecido ocorreu. Tente novamente mais tarde.");
-  
-    setIsErrorModalVisible(true);
+      if (err instanceof AxiosError && err.status! >= 500)
+        setErrorMessage("Um erro desconhecido ocorreu. Tente novamente mais tarde.");
+    
+      setIsErrorModalVisible(true);
+    }
   }
+
+  async function handleBiometricAuth() {
+    const token = await tokenStore.getToken();
+    const savedBiometrics = await LocalAuthentication.isEnrolledAsync();
+    if (!savedBiometrics)
+      return;
+
+    const biometricAuth = await LocalAuthentication.authenticateAsync({
+      promptMessage: "Login com biometria",
+      fallbackLabel: "Usar senha",
+      cancelLabel: "Cancelar",
+      disableDeviceFallback: false
+    });
+
+    if (biometricAuth.success)
+      return router.replace("/home");
   }
 
-    return (
+  useEffect(() => {
+    (async () => {
+      const compatible = await LocalAuthentication.hasHardwareAsync();
+
+      if (compatible)
+        await handleBiometricAuth();
+    })();
+  }, []);
+
+  return (
     <View className="flex-1 items-center bg-purple-700 pt-16">
       <Text className="text-5xl font-lemon text-slate-50 pb-2">
         Good Diary
@@ -64,5 +91,5 @@ export default function Login() {
 
       </BaseModal>
     </View>
-    )
+  )
 }
